@@ -5,7 +5,7 @@ import { NavLink } from "react-router";
 
 const Footer = () => {
   return (
-    <footer className="footer sm:footer-horizontal bg-green-700 text-neutral-content p-10 mt-10">
+    <footer className="footer sm:footer-horizontal bg-green-800 text-neutral-content p-10 mt-10">
       <NavLink to="/">
         <aside className="flex items-center gap-2">
           <img
