@@ -1,8 +1,25 @@
 import React from "react";
 import { MdOutlineNotificationImportant } from "react-icons/md";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
+import useAuth from "../../Hooks/useAuth";
+import { IoLogIn, IoLogOut } from "react-icons/io5";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
+  const { user, userLogOut } = useAuth();
+  const navigate = useNavigate();
+  const handleLogOut = () => {
+    userLogOut().then(() => {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Successfully logged Out",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      navigate("/");
+    });
+  };
   const NavItems = (
     <>
       <li>
@@ -36,7 +53,18 @@ const Navbar = () => {
     <>
       <li>
         <NavLink
-          //   to="/"
+          to="/"
+          className={({ isActive }) =>
+            isActive
+              ? "text-xl font-bold underline underline-offset-1 text-red-400"
+              : "text-xl font-bold"
+          }
+        >
+          Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
           className={({ isActive }) =>
             isActive
               ? "text-xl font-bold underline underline-offset-1 text-red-400"
@@ -48,7 +76,7 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          //   to="/"
+        to=""
           className={({ isActive }) =>
             isActive
               ? "text-xl font-bold underline underline-offset-1 text-red-400"
@@ -98,7 +126,7 @@ const Navbar = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
-            {NavItems}
+            {user ? NavItems2 : NavItems}
           </ul>
         </div>
         {/* Website name and logo */}
@@ -114,7 +142,9 @@ const Navbar = () => {
         </NavLink>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 bg-white">{NavItems}</ul>
+        <ul className="menu menu-horizontal px-1 bg-white">
+          {user ? NavItems2 : NavItems}
+        </ul>
       </div>
       <div className="navbar-end">
         {/* Profile and notification part */}
@@ -148,29 +178,58 @@ const Navbar = () => {
             >
               <div className="w-10 rounded-full">
                 <img
-                  alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                  alt="User Image"
+                  src={
+                    user
+                      ? user.photoURL
+                      : "https://i.ibb.co/jZDk7XVG/user-icon.png"
+                  }
                 />
               </div>
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow text-2xl"
             >
+              <h1 className="pl-2">
+                <span className="justify-between text-sm">
+                  {user ? user.displayName : "User Name"}
+                </span>
+              </h1>
+              <h1 className="pl-2">
+                <span className="justify-between text-sm">
+                  {user ? user.email : "User Email"}
+                </span>
+              </h1>
               <li>
-                <a>Profile</a>
-              </li>
-              <li>
-                <a>Settings</a>
-              </li>
-              <li>
-                <a>Logout</a>
+                {user ? (
+                  <Link onClick={handleLogOut}>
+                    LogOut <IoLogOut />
+                  </Link>
+                ) : (
+                  <Link to="auth/login">
+                    Login <IoLogIn />
+                  </Link>
+                )}
               </li>
             </ul>
           </div>
         </div>
         {/* Login and logout button */}
-        <Link to="auth/login" className="btn btn-info font-bold text-lg">Login</Link>
+        <div>
+          {user ? (
+            <Link
+              onClick={handleLogOut}
+              className="btn btn-info font-bold text-lg"
+            >
+              LogOut <IoLogOut />
+            </Link>
+          ) : (
+            <Link to="auth/login" className="btn btn-info font-bold text-lg">
+              Login <IoLogIn />
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   );

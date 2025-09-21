@@ -1,13 +1,65 @@
 import React, { useState } from "react";
 import LoginLottie from "../../assets/Lottie/Login.json";
 import Lottie from "lottie-react";
-import { NavLink } from "react-router";
+import { NavLink, useLocation, useNavigate } from "react-router";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Title from "../../Sheared/Title/Title";
+import { useForm } from "react-hook-form";
+import useAuth from "../../Hooks/useAuth";
+import Swal from "sweetalert2";
 
 const Login = () => {
-  Title("Login")
+  Title("Login");
+  const { register, handleSubmit } = useForm();
   const [showPassword, setShowPassword] = useState(false);
+  const { signInUser, googleSignUp } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const onSubmit = (data) => {
+    signInUser(data.email, data.password)
+      .then(() => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Welcome to Tap&Earn",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+        navigate(`${location.state ? location.state : "/"}`);
+      })
+      .catch((e) => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: e.message,
+          showConfirmButton: true,
+        });
+        navigate(`${location.state ? location.state : "/"}`);
+      });
+  };
+  // google sing in
+  const handleGoogleSignIn = () => {
+    googleSignUp()
+      .then(() => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Welcome to Tap&Earn",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+        navigate(`${location.state ? location.state : "/"}`);
+      })
+      .catch((e) => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: e.message,
+          showConfirmButton: true,
+        });
+        navigate(`${location.state ? location.state : "/"}`);
+      });
+  };
   return (
     <div className=" mt-10 md:mt-20">
       <div className="hero-content flex-col lg:flex-row-reverse">
@@ -15,7 +67,7 @@ const Login = () => {
         <div className=" card backdrop-blur-3xl w-full max-w-sm shrink-0 shadow-2xl border-1 border-gray-200">
           <h1 className="text-5xl text-center font-bold pt-2">Login now!</h1>
           <div className="card-body">
-            <form className="fieldset">
+            <form onSubmit={handleSubmit(onSubmit)} className="fieldset">
               {/* Email field */}
               <label className="floating-label my-1">
                 <span>Enter your email</span>
@@ -38,6 +90,7 @@ const Login = () => {
                     </g>
                   </svg>
                   <input
+                    {...register("email")}
                     name="email"
                     type="email"
                     required
@@ -77,6 +130,7 @@ const Login = () => {
                   </svg>
                   <input
                     type={showPassword ? "text" : "password"}
+                    {...register("password")}
                     name="password"
                     required
                     placeholder="Password"
@@ -117,7 +171,7 @@ const Login = () => {
               <div className="divider my-0">OR</div>
             </form>
             {/* Google login */}
-            <button className="btn bg-white text-black border-[#e5e5e5]">
+            <button onClick={handleGoogleSignIn} className="btn bg-white text-black border-[#e5e5e5]">
               <svg
                 aria-label="Google logo"
                 width="36"
@@ -159,7 +213,7 @@ const Login = () => {
           </div>
         </div>
         {/* Lottie animation */}
-        <div className="2xl:w-[40%] text-center lg:text-left">
+        <div className="2xl:w-[40%]">
           <Lottie
             style={{ width: 360, height: 400 }}
             animationData={LoginLottie}
