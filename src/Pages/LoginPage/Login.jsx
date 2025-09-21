@@ -3,8 +3,10 @@ import LoginLottie from "../../assets/Lottie/Login.json";
 import Lottie from "lottie-react";
 import { NavLink } from "react-router";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import Title from "../../Sheared/Title/Title";
 
 const Login = () => {
+  Title("Login")
   const [showPassword, setShowPassword] = useState(false);
   return (
     <div className=" mt-10 md:mt-20">
@@ -15,84 +17,88 @@ const Login = () => {
           <div className="card-body">
             <form className="fieldset">
               {/* Email field */}
-              <label className="label">Email</label>
-              <label className="input validator">
-                {" "}
-                <svg
-                  className="h-[1em] opacity-50"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                >
-                  <g
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    strokeWidth="2.5"
-                    fill="none"
-                    stroke="currentColor"
+              <label className="floating-label my-1">
+                <span>Enter your email</span>
+                <label className="input validator">
+                  {" "}
+                  <svg
+                    className="h-[1em] opacity-50"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
                   >
-                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                  </g>
-                </svg>
-                <input
-                  name="email"
-                  type="email"
-                  required
-                  placeholder="mail@site.com"
-                />
+                    <g
+                      strokeLinejoin="round"
+                      strokeLinecap="round"
+                      strokeWidth="2.5"
+                      fill="none"
+                      stroke="currentColor"
+                    >
+                      <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                    </g>
+                  </svg>
+                  <input
+                    name="email"
+                    type="email"
+                    required
+                    placeholder="mail@site.com"
+                  />
+                </label>
               </label>
               <div className="validator-hint hidden">
                 Enter valid email address
               </div>
 
               {/* Password field */}
-              <label className="label">Password</label>
-              <label className="input validator">
-                {" "}
-                <svg
-                  className="h-[1em] opacity-50"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                >
-                  <g
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    strokeWidth="2.5"
-                    fill="none"
-                    stroke="currentColor"
+              <label className="floating-label">
+                <span>Enter your Password</span>
+                <label className="input validator">
+                  {" "}
+                  <svg
+                    className="h-[1em] opacity-50"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
                   >
-                    <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"></path>
-                    <circle
-                      cx="16.5"
-                      cy="7.5"
-                      r=".5"
-                      fill="currentColor"
-                    ></circle>
-                  </g>
-                </svg>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  required
-                  placeholder="Password"
-                  minLength="8"
-                  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                  title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
-                  className="w-full pr-16"
-                />
-                <button
-                  type="button"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-blue-600 cursor-pointer"
-                  onClick={() => {
-                    setShowPassword(!showPassword);
-                  }}
-                >
-                  {showPassword ? (
-                    <FaEyeSlash size={20} />
-                  ) : (
-                    <FaEye size={20} />
-                  )}
-                </button>
+                    <g
+                      strokeLinejoin="round"
+                      strokeLinecap="round"
+                      strokeWidth="2.5"
+                      fill="none"
+                      stroke="currentColor"
+                    >
+                      <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"></path>
+                      <circle
+                        cx="16.5"
+                        cy="7.5"
+                        r=".5"
+                        fill="currentColor"
+                      ></circle>
+                    </g>
+                  </svg>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    required
+                    placeholder="Password"
+                    minLength="8"
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                    title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
+                    className="w-full pr-16"
+                  />
+                  <button
+                    type="button"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-blue-600 cursor-pointer"
+                    onClick={() => {
+                      setShowPassword(!showPassword);
+                    }}
+                  >
+                    {showPassword ? (
+                      <FaEyeSlash size={20} />
+                    ) : (
+                      <FaEye size={20} />
+                    )}
+                  </button>
+                </label>
               </label>
               <p className="validator-hint hidden">
                 Must be more than 8 characters, including
