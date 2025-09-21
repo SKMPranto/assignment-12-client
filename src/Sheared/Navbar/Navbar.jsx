@@ -170,7 +170,7 @@ const Navbar = () => {
           </div>
         </div>
         {/* Login and logout button */}
-        <Link className="btn btn-info font-bold text-lg">Login</Link>
+        <Link to="auth/login" className="btn btn-info font-bold text-lg">Login</Link>
       </div>
     </div>
   );
