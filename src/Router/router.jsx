@@ -4,6 +4,7 @@ import MainLayout from "../Layouts/MainLayout/MainLayout";
 import Home from "../Pages/Home/Home";
 import Login from "../Pages/LoginPage/Login";
 import Register from "../Pages/RegisterPage/Register";
+import Error from "../Pages/Error_Page/Error";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
         Component: Register,
       },
     ],
+    errorElement:<Error></Error>
   },
 ]);
 
