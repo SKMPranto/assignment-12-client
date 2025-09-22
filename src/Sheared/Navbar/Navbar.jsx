@@ -65,6 +65,7 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
+        to="/dashboard"
           className={({ isActive }) =>
             isActive
               ? "text-xl font-bold underline underline-offset-1 text-red-400"
@@ -74,18 +75,9 @@ const Navbar = () => {
           Dashboard
         </NavLink>
       </li>
-      <li>
-        <NavLink
-        to=""
-          className={({ isActive }) =>
-            isActive
-              ? "text-xl font-bold underline underline-offset-1 text-red-400"
-              : "text-xl font-bold"
-          }
-        >
-          Available Coin :
-        </NavLink>
-      </li>
+      <a className="text-lg font-bold p-1.5 mr-5">
+        Available Coin :
+      </a>
       <li>
         <NavLink
           to="https://github.com/SKMPranto"
