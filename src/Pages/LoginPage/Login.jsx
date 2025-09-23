@@ -30,36 +30,50 @@ const Login = () => {
       .catch((e) => {
         Swal.fire({
           position: "center",
-          icon: "success",
+          icon: "error",
           title: e.message,
           showConfirmButton: true,
         });
-        navigate(`${location.state ? location.state : "/"}`);
       });
   };
   // google sing in
   const handleGoogleSignIn = () => {
-    googleSignUp()
-      .then(() => {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Welcome to Tap&Earn",
-          showConfirmButton: false,
-          timer: 2500,
-        });
-        navigate(`${location.state ? location.state : "/"}`);
-      })
-      .catch((e) => {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: e.message,
-          showConfirmButton: true,
-        });
-        navigate(`${location.state ? location.state : "/"}`);
-      });
+    Swal.fire({
+      title: "Are you already registered?",
+      text: "Choose Yes if you already have an account.",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes, I am registered",
+      cancelButtonText: "No, Register me",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // ✅ User says they're registered → sign in
+        googleSignUp()
+          .then(() => {
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Welcome back to Tap&Earn",
+              showConfirmButton: false,
+              timer: 2500,
+            });
+            navigate(`${location.state ? location.state : "/"}`);
+          })
+          .catch((e) => {
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: e.message,
+              showConfirmButton: true,
+            });
+          });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // ❌ User says they are not registered → redirect
+        navigate("/auth/register");
+      }
+    });
   };
+
   return (
     <div className=" mt-10 md:mt-20">
       <div className="hero-content flex-col lg:flex-row-reverse">
@@ -171,7 +185,10 @@ const Login = () => {
               <div className="divider my-0">OR</div>
             </form>
             {/* Google login */}
-            <button onClick={handleGoogleSignIn} className="btn bg-white text-black border-[#e5e5e5]">
+            <button
+              onClick={handleGoogleSignIn}
+              className="btn bg-white text-black border-[#e5e5e5]"
+            >
               <svg
                 aria-label="Google logo"
                 width="36"

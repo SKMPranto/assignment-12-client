@@ -1,15 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineNotificationImportant } from "react-icons/md";
 import { Link, NavLink, useNavigate } from "react-router";
 import useAuth from "../../Hooks/useAuth";
 import { IoLogIn, IoLogOut } from "react-icons/io5";
 import Swal from "sweetalert2";
+import useAxios from "../../Hooks/useAxios";
 
 const Navbar = () => {
   const { user, userLogOut } = useAuth();
   const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useState([]);
+  const axiosInstance = useAxios();
+  useEffect(() => {
+    if (user?.email) {
+      axiosInstance
+        .get(`/users/${user.email}`)
+        .then((res) => setUserInfo(res.data))
+        .catch((err) => console.error(err));
+    }
+  }, [user?.email, axiosInstance]);
+
   const handleLogOut = () => {
     userLogOut().then(() => {
+      setUserInfo(null);
       Swal.fire({
         position: "center",
         icon: "success",
@@ -65,7 +78,7 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-        to="/dashboard"
+          to="/dashboard"
           className={({ isActive }) =>
             isActive
               ? "text-xl font-bold underline underline-offset-1 text-red-400"
@@ -76,7 +89,7 @@ const Navbar = () => {
         </NavLink>
       </li>
       <a className="text-lg font-bold p-1.5 mr-5">
-        Available Coin :
+        {userInfo && `Available Coins : ${userInfo.coins}`}
       </a>
       <li>
         <NavLink
@@ -183,27 +196,42 @@ const Navbar = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow text-2xl"
             >
-              <h1 className="pl-2">
-                <span className="justify-between text-sm">
-                  {user ? user.displayName : "User Name"}
-                </span>
-              </h1>
-              <h1 className="pl-2">
-                <span className="justify-between text-sm">
-                  {user ? user.email : "User Email"}
-                </span>
-              </h1>
-              <li>
-                {user ? (
-                  <Link onClick={handleLogOut}>
-                    LogOut <IoLogOut />
-                  </Link>
-                ) : (
-                  <Link to="auth/login">
-                    Login <IoLogIn />
-                  </Link>
-                )}
-              </li>
+              {user ? (
+                <div>
+                  <h1 className="pl-2">
+                    <span className="text-sm">{userInfo?.username}</span>
+                  </h1>
+                  <h1 className="pl-2">
+                    <span className="text-sm">{userInfo?.email}</span>
+                  </h1>
+                  <h1 className="pl-2">
+                    <div className="badge badge-info text-sm">
+                      User Role : {userInfo?.role}
+                    </div>
+                  </h1>
+                  <h1 className="pl-2">
+                    <div className="badge badge-info text-sm">
+                      Available Coin : {userInfo?.coins}
+                    </div>
+                  </h1>
+                  <li>
+                    <Link onClick={handleLogOut}>
+                      LogOut <IoLogOut />
+                    </Link>
+                  </li>
+                </div>
+              ) : (
+                <div className="p-2 text-center">
+                  <p className="text-sm mb-2">
+                    Please log in to see your profile
+                  </p>
+                  <li>
+                    <Link to="auth/login">
+                      Login <IoLogIn />
+                    </Link>
+                  </li>
+                </div>
+              )}
             </ul>
           </div>
         </div>
