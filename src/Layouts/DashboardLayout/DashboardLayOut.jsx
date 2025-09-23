@@ -121,7 +121,7 @@ const DashboardLayOut = () => {
                       </h1>
                       <h1 className="pl-2">
                         <div className="badge badge-info text-sm">
-                          Available Coins : {userInfo?.coins}
+                          Available Coins : {userInfo?.coins} <strong>$</strong>
                         </div>
                       </h1>
                       <li>

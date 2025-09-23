@@ -67,6 +67,8 @@ const MyAddedTasks = ({ tasks, setTasks }) => {
                   confirmButtonText: "OK",
                 });
                 handleDeleteFromList(id);
+                // ✅ Refresh the page
+                window.location.reload();
               }
             })
             .catch(() => {
@@ -103,12 +105,13 @@ const MyAddedTasks = ({ tasks, setTasks }) => {
             </figure>
             <div className="card-body">
               <h2 className="card-title">{task.task_title}</h2>
-              <p className="text-gray-300">{task.task_detail}</p>
+              <p className="text-gray-500">{task.task_detail}</p>
               <p>
                 <strong>Required Workers:</strong> {task.required_workers}
               </p>
               <p>
-                <strong>Payable Amount:</strong> {task.payable_amount}
+                <strong>Payable Amount:</strong> {task.payable_amount}{" "}
+                <strong>$</strong>
               </p>
               <p>
                 <strong>Completion Date:</strong>{" "}
@@ -121,7 +124,7 @@ const MyAddedTasks = ({ tasks, setTasks }) => {
               {/* Action buttons */}
               <div className="join join-vertical lg:join-horizontal gap-x-15 mt-4">
                 <NavLink
-                  to={`/updateTask/${task._id}`}
+                  to={`/dashboard/updateTask/${task._id}`}
                   className="btn join-item btn-outline  btn-warning md:text-lg rounded md:font-extrabold"
                 >
                   Update Task <FaEdit />

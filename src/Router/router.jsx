@@ -12,6 +12,7 @@ import BuyerHome from "../Pages/Dashboard/BuyerHome/BuyerHome";
 import AddNewTasks from "../Pages/Dashboard/AddNewTask's/AddNewTasks";
 import PurchaseCoin from "../Pages/Dashboard/PurchaseCoin/PurchaseCoin";
 import PaymentHistory from "../Pages/Dashboard/PaymentHistory/PaymentHistory";
+import UpdateTask from "../Pages/Dashboard/UpdateTask/UpdateTask";
 
 const router = createBrowserRouter([
   {
@@ -42,7 +43,7 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        index:true,
+        index: true,
         Component: BuyerHome,
       },
       {
@@ -61,7 +62,12 @@ const router = createBrowserRouter([
         path: "paymentHistory",
         Component: PaymentHistory,
       },
+      {
+        path: "updateTask/:id",
+        Component: UpdateTask,
+      },
     ],
+    errorElement: <Error></Error>,
   },
 ]);
 
