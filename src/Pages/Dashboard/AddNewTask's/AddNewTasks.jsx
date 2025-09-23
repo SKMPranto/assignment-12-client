@@ -15,6 +15,7 @@ const AddNewTasks = () => {
   const axiosInstance = useAxios();
   const { user } = useAuth();
   const [userInfo, setUserInfo] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (user?.email) {
@@ -88,14 +89,24 @@ const AddNewTasks = () => {
   };
 
   const handleImageUpload = async (e) => {
+    setLoading(true); // ✅ start loading before upload
     const image = e.target.files[0];
     const formData = new FormData();
     formData.append("image", image);
+
     const imageUploadUrl = `https://api.imgbb.com/1/upload?key=${
       import.meta.env.VITE_IMAGE_UPLOAD_KEY
     }`;
-    const res = await axios.post(imageUploadUrl, formData);
-    setImageURL(res.data.data.url);
+
+    try {
+      const res = await axios.post(imageUploadUrl, formData);
+      setImageURL(res.data.data.url);
+    } catch (err) {
+      console.error(err);
+      Swal.fire("Error", "Image upload failed. Try again!", "error");
+    } finally {
+      setLoading(false); // ✅ stop loading after upload success or fail
+    }
   };
 
   return (
@@ -197,10 +208,14 @@ const AddNewTasks = () => {
       {/* Submit Button */}
       <button
         type="submit"
-        className="btn btn-primary w-full"
-        disabled={!imageURL}
+        disabled={!imageURL || loading}
+        className={`w-full py-3 rounded-lg font-semibold text-white transition ${
+          loading
+            ? "bg-indigo-400 cursor-not-allowed"
+            : "bg-indigo-600 hover:bg-indigo-700"
+        }`}
       >
-        Add Task
+        {loading ? "Uploading image in ImageBB..." : "Add Task"}
       </button>
     </form>
   );

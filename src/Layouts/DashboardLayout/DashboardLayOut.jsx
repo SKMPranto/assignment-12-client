@@ -38,19 +38,57 @@ const DashboardLayOut = () => {
   const BuyerNavItems = (
     <>
       <li>
-        <NavLink to="/dashboard/buyerHome">Home</NavLink>
+        <NavLink to="/dashboard" className="text-xl font-bold">
+          Home
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/dashboard/addNewTasks">AddNew Task's</NavLink>
+        <NavLink
+          to="/dashboard/addNewTasks"
+          className={({ isActive }) =>
+            isActive
+              ? "text-xl font-bold underline underline-offset-1 text-red-400"
+              : "text-xl font-bold"
+          }
+        >
+          AddNew Task's
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/dashboard/myTasks">My Task's</NavLink>
+        <NavLink
+          to="/dashboard/myTasks"
+          className={({ isActive }) =>
+            isActive
+              ? "text-xl font-bold underline underline-offset-1 text-red-400"
+              : "text-xl font-bold"
+          }
+        >
+          My Task's
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/dashboard/purchaseCoin">Purchase Coin</NavLink>
+        <NavLink
+          to="/dashboard/purchaseCoin"
+          className={({ isActive }) =>
+            isActive
+              ? "text-xl font-bold underline underline-offset-1 text-red-400"
+              : "text-xl font-bold"
+          }
+        >
+          Purchase Coin
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/dashboard/paymentHistory">Payment History</NavLink>
+        <NavLink
+          to="/dashboard/paymentHistory"
+          className={({ isActive }) =>
+            isActive
+              ? "text-xl font-bold underline underline-offset-1 text-red-400"
+              : "text-xl font-bold"
+          }
+        >
+          Payment History
+        </NavLink>
       </li>
     </>
   );
@@ -121,7 +159,7 @@ const DashboardLayOut = () => {
                       </h1>
                       <h1 className="pl-2">
                         <div className="badge badge-info text-sm">
-                          Available Coins : {userInfo?.coins} <strong>$</strong>
+                          Available Coins : {userInfo?.coins}
                         </div>
                       </h1>
                       <li>
@@ -148,8 +186,7 @@ const DashboardLayOut = () => {
           </div>
           {/* Page content DownHere */}
           <div className="min-h-[calc(100vh-72px)] w-[97%] md:w-[95%] lg:w-[90%] 2xl:w-[95%] mx-auto">
-            <Outlet> 
-            </Outlet>
+            <Outlet></Outlet>
           </div>
           {/* Page content UpHere */}
         </div>

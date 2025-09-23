@@ -13,6 +13,7 @@ import AddNewTasks from "../Pages/Dashboard/AddNewTask's/AddNewTasks";
 import PurchaseCoin from "../Pages/Dashboard/PurchaseCoin/PurchaseCoin";
 import PaymentHistory from "../Pages/Dashboard/PaymentHistory/PaymentHistory";
 import UpdateTask from "../Pages/Dashboard/UpdateTask/UpdateTask";
+import PayMent from "../Pages/Dashboard/PayMent/PayMent";
 
 const router = createBrowserRouter([
   {
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
       {
         path: "updateTask/:id",
         Component: UpdateTask,
+      },
+      {
+        path: "payment",
+        Component: PayMent,
       },
     ],
     errorElement: <Error></Error>,

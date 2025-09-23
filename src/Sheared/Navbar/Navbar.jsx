@@ -89,7 +89,7 @@ const Navbar = () => {
         </NavLink>
       </li>
       <a className="text-lg font-bold p-1.5 mr-5">
-        {userInfo && `Available Coins : ${userInfo.coins} $`}
+        {userInfo && `Available Coins : ${userInfo.coins}`}
       </a>
       <li>
         <NavLink
@@ -211,7 +211,7 @@ const Navbar = () => {
                   </h1>
                   <h1 className="pl-2">
                     <div className="badge badge-info text-sm">
-                      Available Coins : {userInfo?.coins} <strong>$</strong>
+                      Available Coins : {userInfo?.coins}
                     </div>
                   </h1>
                   <li>

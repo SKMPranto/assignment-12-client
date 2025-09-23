@@ -2,11 +2,73 @@ import React from "react";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import Swal from "sweetalert2";
-import useAxios from "../../../Hooks/useAxios";
 import { NavLink } from "react-router";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const MyAddedTasks = ({ tasks, setTasks }) => {
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
+
+  // ✅ Remove task from UI
+  const handleDeleteFromList = (id) => {
+    setTasks((prev) => prev.filter((task) => task._id !== id));
+  };
+
+  // ✅ Delete task with SweetAlert2 + Axios
+  const handleDelete = (id) => {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success text-white",
+        cancelButton: "btn btn-error text-white",
+        actions: "flex justify-between gap-x-7",
+      },
+      buttonsStyling: false,
+    });
+
+    swalWithBootstrapButtons
+      .fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
+        focusCancel: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          axiosSecure
+            .delete(`/tasks/${id}`)
+            .then((res) => {
+              if (res.data.deletedCount) {
+                swalWithBootstrapButtons.fire({
+                  title: "Deleted!",
+                  text: "Your task has been deleted.",
+                  icon: "success",
+                  confirmButtonText: "OK",
+                });
+                handleDeleteFromList(id);
+                window.location.reload();
+              }
+            })
+            .catch(() => {
+              Swal.fire("Error", "Failed to delete task", "error");
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire({
+            title: "Cancelled",
+            text: "Your task is safe 🙂",
+            icon: "info",
+            confirmButtonText: "OK",
+          });
+        }
+      });
+  };
+
+  // ✅ Sort tasks by completion_date descending
+  const sortedTasks = [...tasks].sort(
+    (a, b) => new Date(b.completion_date) - new Date(a.completion_date)
+  );
 
   if (!tasks || tasks.length === 0) {
     return (
@@ -27,118 +89,53 @@ const MyAddedTasks = ({ tasks, setTasks }) => {
     );
   }
 
-  // ✅ Remove task from UI
-  const handleDeleteFromList = (id) => {
-    setTasks((prev) => prev.filter((task) => task._id !== id));
-  };
-
-  // ✅ Delete task with SweetAlert2 + Axios
-  const handleDelete = (id) => {
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: "btn btn-success text-white",
-        cancelButton: "btn btn-error text-white",
-        actions: "flex justify-between gap-x-7", // Add spacing between buttons
-      },
-      buttonsStyling: false,
-    });
-
-    swalWithBootstrapButtons
-      .fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, delete it!",
-        cancelButtonText: "No, cancel!",
-        reverseButtons: true,
-        focusCancel: true, // Makes cancel focused by default
-      })
-      .then((result) => {
-        if (result.isConfirmed) {
-          axiosInstance
-            .delete(`/tasks/${id}`)
-            .then((res) => {
-              if (res.data.deletedCount) {
-                swalWithBootstrapButtons.fire({
-                  title: "Deleted!",
-                  text: "Your task has been deleted.",
-                  icon: "success",
-                  confirmButtonText: "OK",
-                });
-                handleDeleteFromList(id);
-                // ✅ Refresh the page
-                window.location.reload();
-              }
-            })
-            .catch(() => {
-              Swal.fire("Error", "Failed to delete task", "error");
-            });
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          swalWithBootstrapButtons.fire({
-            title: "Cancelled",
-            text: "Your task is safe 🙂",
-            icon: "info",
-            confirmButtonText: "OK",
-          });
-        }
-      });
-  };
-
   return (
     <div>
-      <h1 className="text-2xl md:text-3xl 2xl:text-4xl text-gray-400 font-bold text-center mt-10">
+      <h1 className="text-2xl md:text-3xl 2xl:text-4xl text-red-400 font-bold text-center mt-10">
         My Added Tasks
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-10 mb-10 justify-items-center">
-        {tasks.map((task) => (
-          <div
-            key={task._id}
-            className="card w-40 md:w-40 2xl:w-100 shadow-lg rounded-lg shadow-gray-500 border-1"
-          >
-            <figure>
-              <img
-                src={task.photoURL}
-                alt={task.task_title}
-                className="h-62 object-cover"
-              />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">{task.task_title}</h2>
-              <p className="text-gray-500">{task.task_detail}</p>
-              <p>
-                <strong>Required Workers:</strong> {task.required_workers}
-              </p>
-              <p>
-                <strong>Payable Amount:</strong> {task.payable_amount}{" "}
-                <strong>$</strong>
-              </p>
-              <p>
-                <strong>Completion Date:</strong>{" "}
-                {new Date(task.completion_date).toLocaleDateString()}
-              </p>
-              <p>
-                <strong>Submission Info:</strong> {task.submission_info}
-              </p>
 
-              {/* Action buttons */}
-              <div className="join join-vertical lg:join-horizontal gap-x-15 mt-4">
-                <NavLink
-                  to={`/dashboard/updateTask/${task._id}`}
-                  className="btn join-item btn-outline  btn-warning md:text-lg rounded md:font-extrabold"
-                >
-                  Update Task <FaEdit />
-                </NavLink>
-                <button
-                  onClick={() => handleDelete(task._id)}
-                  className="btn join-item btn-outline  btn-error md:text-lg rounded md:font-extrabold"
-                >
-                  Delete <MdDeleteForever />
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
+      {/* ✅ Table Format */}
+      <div className="overflow-x-auto mt-10 mb-10">
+        <table className="table table-zebra w-full">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Detail</th>
+              <th>Required Workers</th>
+              <th>Payable Amount</th>
+              <th>Completion Date</th>
+              <th>Submission Info</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sortedTasks.map((task) => (
+              <tr key={task._id}>
+                <td>{task.task_title}</td>
+                <td>{task.task_detail}</td>
+                <td>{task.required_workers}</td>
+                <td>{task.payable_amount}</td>
+                <td>{new Date(task.completion_date).toLocaleDateString()}</td>
+                <td>{task.submission_info}</td>
+                <td className="flex gap-2">
+                  <NavLink
+                    to={`/dashboard/updateTask/${task._id}`}
+                    className="btn btn-sm btn-warning rounded font-bold flex items-center gap-1"
+                  >
+                    <FaEdit /> Update
+                  </NavLink>
+                  <button
+                    onClick={() => handleDelete(task._id)}
+                    className="btn btn-sm btn-error rounded font-bold flex items-center gap-1"
+                  >
+                    <MdDeleteForever /> Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
