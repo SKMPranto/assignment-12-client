@@ -9,7 +9,7 @@ import { IoLogIn, IoLogOut } from "react-icons/io5";
 import Title from "../../Sheared/Title/Title";
 
 const DashboardLayOut = () => {
-  Title('Dashboard')
+  Title("Dashboard");
   const { user, userLogOut } = useAuth();
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState([]);
@@ -147,8 +147,9 @@ const DashboardLayOut = () => {
             </div>
           </div>
           {/* Page content DownHere */}
-          <div className="min-h-[calc(100vh-72px)] w-[97%] md:w-[95%] lg:w-[90%] 2xl:w-[70%] mx-auto">
-            <Outlet> </Outlet>
+          <div className="min-h-[calc(100vh-72px)] w-[97%] md:w-[95%] lg:w-[90%] 2xl:w-[95%] mx-auto">
+            <Outlet> 
+            </Outlet>
           </div>
           {/* Page content UpHere */}
         </div>

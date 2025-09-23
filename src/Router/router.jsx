@@ -42,7 +42,7 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "buyerHome",
+        index:true,
         Component: BuyerHome,
       },
       {

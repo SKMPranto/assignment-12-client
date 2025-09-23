@@ -101,7 +101,7 @@ const AddNewTasks = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-2xl mx-auto p-6 bg-white border-1 rounded-2xl shadow-2xl space-y-4 mt-5"
+      className="max-w-2xl mx-auto p-6 bg-white border-1 rounded-2xl shadow-2xl space-y-4 my-8"
     >
       <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 text-center">
         Add New Task
