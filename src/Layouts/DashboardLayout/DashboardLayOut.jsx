@@ -1,9 +1,40 @@
-import React from "react";
-import { NavLink, Outlet } from "react-router";
+import React, { useEffect, useState } from "react";
+import { Link, NavLink, Outlet, useNavigate } from "react-router";
 import Navbar from "../../Sheared/Navbar/Navbar";
 import Footer from "../../Sheared/Footer/Footer";
+import useAxios from "../../Hooks/useAxios";
+import useAuth from "../../Hooks/useAuth";
+import Swal from "sweetalert2";
+import { IoLogIn, IoLogOut } from "react-icons/io5";
+import Title from "../../Sheared/Title/Title";
 
 const DashboardLayOut = () => {
+  Title('Dashboard')
+  const { user, userLogOut } = useAuth();
+  const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useState([]);
+  const axiosInstance = useAxios();
+  useEffect(() => {
+    if (user?.email) {
+      axiosInstance
+        .get(`/users/${user.email}`)
+        .then((res) => setUserInfo(res.data))
+        .catch((err) => console.error(err));
+    }
+  }, [user?.email, axiosInstance]);
+  const handleLogOut = () => {
+    userLogOut().then(() => {
+      setUserInfo(null);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Successfully logged Out",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      navigate("/");
+    });
+  };
   const BuyerNavItems = (
     <>
       <li>
@@ -52,41 +83,67 @@ const DashboardLayOut = () => {
               </label>
             </div>
             <div className="mx-2 flex-1 px-2"></div>
-            <div className="flex-none">
-              <ul className="menu menu-horizontal">
-                {/* Navbar menu content here */}
-                <div className="dropdown dropdown-end">
-                  <div
-                    tabIndex={0}
-                    role="button"
-                    className="btn btn-ghost btn-circle avatar"
-                  >
-                    <div className="w-10 rounded-full">
-                      <img
-                        alt="Tailwind CSS Navbar component"
-                        src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                      />
-                    </div>
+            {/* Profile Section */}
+            <div className="flex-none px-2">
+              <div className="dropdown dropdown-hover dropdown-end pl-2">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn btn-ghost btn-circle avatar"
+                >
+                  <div className="w-10 rounded-full">
+                    <img
+                      alt="User Image"
+                      src={
+                        user
+                          ? user.photoURL
+                          : "https://i.ibb.co/jZDk7XVG/user-icon.png"
+                      }
+                    />
                   </div>
-                  <ul
-                    tabIndex={0}
-                    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-                  >
-                    <li>
-                      <a className="justify-between">
-                        Profile
-                        <span className="badge">New</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>Settings</a>
-                    </li>
-                    <li>
-                      <a>Logout</a>
-                    </li>
-                  </ul>
                 </div>
-              </ul>
+                <ul
+                  tabIndex={0}
+                  className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow text-2xl"
+                >
+                  {user ? (
+                    <div>
+                      <h1 className="pl-2">
+                        <span className="text-sm">{userInfo?.username}</span>
+                      </h1>
+                      <h1 className="pl-2">
+                        <span className="text-sm">{userInfo?.email}</span>
+                      </h1>
+                      <h1 className="pl-2">
+                        <div className="badge badge-info text-sm">
+                          User Role : {userInfo?.role}
+                        </div>
+                      </h1>
+                      <h1 className="pl-2">
+                        <div className="badge badge-info text-sm">
+                          Available Coins : {userInfo?.coins}
+                        </div>
+                      </h1>
+                      <li>
+                        <Link onClick={handleLogOut}>
+                          LogOut <IoLogOut />
+                        </Link>
+                      </li>
+                    </div>
+                  ) : (
+                    <div className="p-2 text-center">
+                      <p className="text-sm mb-2">
+                        Please log in to see your profile
+                      </p>
+                      <li>
+                        <Link to="auth/login">
+                          Login <IoLogIn />
+                        </Link>
+                      </li>
+                    </div>
+                  )}
+                </ul>
+              </div>
             </div>
           </div>
           {/* Page content DownHere */}

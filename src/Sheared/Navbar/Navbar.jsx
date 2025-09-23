@@ -211,7 +211,7 @@ const Navbar = () => {
                   </h1>
                   <h1 className="pl-2">
                     <div className="badge badge-info text-sm">
-                      Available Coin : {userInfo?.coins}
+                      Available Coins : {userInfo?.coins}
                     </div>
                   </h1>
                   <li>

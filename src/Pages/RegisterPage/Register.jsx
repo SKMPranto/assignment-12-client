@@ -23,7 +23,7 @@ const Register = () => {
   // -------------------- REGISTER FUNCTION --------------------
   const onSubmit = async (data) => {
     createUser(data.email, data.password).then(async () => {
-      // Update user info in database
+      // Upload user info in database
       const userInfo = {
         username: data.username,
         photoURL: profilePic,
@@ -120,7 +120,7 @@ const Register = () => {
         });
       });
   };
-
+//----------------------- Upload Image in IMGBB -------------------------
   const handleImageUpload = async (e) => {
     const image = e.target.files[0];
 
@@ -165,6 +165,7 @@ const Register = () => {
                 onChange={handleImageUpload}
                 type="file"
                 className="file-input"
+                required
               />
 
               {/* Role */}
@@ -179,7 +180,6 @@ const Register = () => {
                 </option>
                 <option value="Worker">Worker</option>
                 <option value="Buyer">Buyer</option>
-                <option value="Admin">Admin</option>
               </select>
 
               {/* Email */}
