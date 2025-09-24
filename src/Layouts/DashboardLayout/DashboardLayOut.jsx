@@ -122,7 +122,7 @@ const DashboardLayOut = () => {
             </div>
             <div className="mx-2 flex-1 px-2"></div>
             {/* Profile Section */}
-            <div className="flex-none px-2">
+            <div className="flex-none px-5">
               <div className="dropdown dropdown-hover dropdown-end pl-2">
                 <div
                   tabIndex={0}
@@ -134,7 +134,7 @@ const DashboardLayOut = () => {
                       alt="User Image"
                       src={
                         user
-                          ? user.photoURL
+                          ? user?.photoURL
                           : "https://i.ibb.co/jZDk7XVG/user-icon.png"
                       }
                     />

@@ -209,7 +209,7 @@ const AddNewTasks = () => {
       <button
         type="submit"
         disabled={!imageURL || loading}
-        className={`w-full py-3 rounded-lg font-semibold text-white transition ${
+        className={`w-full text-2xl py-1 cursor-pointer rounded-lg font-bold text-white transition ${
           loading
             ? "bg-indigo-400 cursor-not-allowed"
             : "bg-indigo-600 hover:bg-indigo-700"

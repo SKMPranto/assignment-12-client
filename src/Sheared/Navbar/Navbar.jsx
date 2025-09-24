@@ -186,7 +186,7 @@ const Navbar = () => {
                   alt="User Image"
                   src={
                     user
-                      ? user.photoURL
+                      ? user?.photoURL
                       : "https://i.ibb.co/jZDk7XVG/user-icon.png"
                   }
                 />

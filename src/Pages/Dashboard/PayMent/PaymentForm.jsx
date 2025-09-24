@@ -1,8 +1,8 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useState } from "react";
-import { useLocation } from "react-router"; // ✅ to get pack info
-import useAxiosSecure from "../../../Hooks/useAxiosSecure"; // ✅ your axios hook
-import useAuth from "../../../Hooks/useAuth"; // ✅ to get logged in user
+import { useLocation } from "react-router"; // to get pack info
+import useAxiosSecure from "../../../Hooks/useAxiosSecure"; // axios hook
+import useAuth from "../../../Hooks/useAuth"; // to get logged in user
 import Swal from "sweetalert2";
 
 const PaymentForm = () => {
@@ -86,11 +86,18 @@ const PaymentForm = () => {
       if (result.paymentIntent.status === "succeeded") {
         // Step 4 : Create the payment history
         await axiosSecure.post("/payment-history", {
-          email: user.email,
-          coins: pack.coins,
-          amount: pack.amount,
-          transactionId: result.paymentIntent.id,
+          name: user?.displayName,
+          email: user?.email,
+          coins: pack?.coins,
+          amount: pack?.amount,
+          transactionId: result?.paymentIntent.id,
           date: new Date(),
+          card: {
+            brand: paymentMethod.card.brand,
+            last4: paymentMethod.card.last4,
+            exp_month: paymentMethod.card.exp_month,
+            exp_year: paymentMethod.card.exp_year,
+          },
         });
       }
     }
