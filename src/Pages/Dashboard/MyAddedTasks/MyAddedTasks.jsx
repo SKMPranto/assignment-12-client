@@ -41,14 +41,17 @@ const MyAddedTasks = ({ tasks, setTasks }) => {
             .delete(`/tasks/${id}`)
             .then((res) => {
               if (res.data.deletedCount) {
-                swalWithBootstrapButtons.fire({
-                  title: "Deleted!",
-                  text: "Your task has been deleted.",
-                  icon: "success",
-                  confirmButtonText: "OK",
-                });
-                handleDeleteFromList(id);
-                window.location.reload();
+                swalWithBootstrapButtons
+                  .fire({
+                    title: "Deleted!",
+                    text: "Your task has been deleted.",
+                    icon: "success",
+                    confirmButtonText: "OK",
+                  })
+                  .then(() => {
+                    handleDeleteFromList(id);
+                    window.location.reload();
+                  });
               }
             })
             .catch(() => {

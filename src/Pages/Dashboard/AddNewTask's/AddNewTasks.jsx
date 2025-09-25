@@ -211,7 +211,7 @@ const AddNewTasks = () => {
         disabled={!imageURL || loading}
         className={`w-full text-2xl py-1 cursor-pointer rounded-lg font-bold text-white transition ${
           loading
-            ? "bg-indigo-400 cursor-not-allowed"
+            ? "bg-indigo-400 cursor-progress"
             : "bg-indigo-600 hover:bg-indigo-700"
         }`}
       >

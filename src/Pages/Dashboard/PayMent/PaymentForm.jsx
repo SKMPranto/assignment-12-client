@@ -47,10 +47,11 @@ const PaymentForm = () => {
           icon: "success",
           title: "Payment Successful",
           text: `You purchased ${pack.coins} coins!`,
-        }).then(() => {
-          // Refresh page after clicking OK
-          window.location.reload();
         });
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000); // reloads after 3 seconds
       } catch (err) {
         Swal.fire({
           icon: "error",
