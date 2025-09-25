@@ -14,6 +14,11 @@ import PurchaseCoin from "../Pages/Dashboard/PurchaseCoin/PurchaseCoin";
 import PaymentHistory from "../Pages/Dashboard/PaymentHistory/PaymentHistory";
 import UpdateTask from "../Pages/Dashboard/UpdateTask/UpdateTask";
 import PayMent from "../Pages/Dashboard/PayMent/PayMent";
+import WorkerHome from "../Pages/Dashboard/WorkerDashboard/WorkerHome/WorkerHome";
+import TaskList from "../Pages/Dashboard/WorkerDashboard/TaskList/TaskList";
+import MySubmissions from "../Pages/Dashboard/WorkerDashboard/MySubmissions/MySubmissions";
+import Withdrawals from "../Pages/Dashboard/WorkerDashboard/Withdrawals/Withdrawals";
+import DashboardHome from "../Pages/Dashboard/DashboardHome/DashboardHome";
 
 const router = createBrowserRouter([
   {
@@ -45,7 +50,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: BuyerHome,
+        Component: DashboardHome,
       },
       {
         path: "addNewTasks",
@@ -70,6 +75,18 @@ const router = createBrowserRouter([
       {
         path: "payment",
         Component: PayMent,
+      },
+      {
+        path: "tasklist",
+        Component: TaskList,
+      },
+      {
+        path: "mySubmissions",
+        Component: MySubmissions,
+      },
+      {
+        path: "withdrawals",
+        Component: Withdrawals,
       },
     ],
     errorElement: <Error></Error>,

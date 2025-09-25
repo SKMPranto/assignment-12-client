@@ -92,6 +92,51 @@ const DashboardLayOut = () => {
       </li>
     </>
   );
+  const WorkerNavItems = (
+    <>
+      <li>
+        <NavLink to="/dashboard" className="text-xl font-bold">
+          Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/dashboard/tasklist"
+          className={({ isActive }) =>
+            isActive
+              ? "text-xl font-bold underline underline-offset-1 text-red-400"
+              : "text-xl font-bold"
+          }
+        >
+          Tasklist
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/dashboard/mySubmissions"
+          className={({ isActive }) =>
+            isActive
+              ? "text-xl font-bold underline underline-offset-1 text-red-400"
+              : "text-xl font-bold"
+          }
+        >
+          My Submissions
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/dashboard/withdrawals"
+          className={({ isActive }) =>
+            isActive
+              ? "text-xl font-bold underline underline-offset-1 text-red-400"
+              : "text-xl font-bold"
+          }
+        >
+          Withdrawals
+        </NavLink>
+      </li>
+    </>
+  );
   return (
     <div>
       <div className="drawer lg:drawer-open">
@@ -209,7 +254,11 @@ const DashboardLayOut = () => {
                 className="h-13"
               />
             </NavLink>
-            <div className="pl-10">{BuyerNavItems}</div>
+            {/* Here the nav items are rendering */}
+            <div className="pl-10">
+              {(userInfo?.role === "Buyer" && BuyerNavItems) ||
+                (userInfo?.role === "Worker" && WorkerNavItems)}
+            </div>
           </ul>
         </div>
       </div>

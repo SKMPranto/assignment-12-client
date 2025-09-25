@@ -89,7 +89,7 @@ const AddNewTasks = () => {
   };
 
   const handleImageUpload = async (e) => {
-    setLoading(true); // ✅ start loading before upload
+    setLoading(true); //  start loading before upload
     const image = e.target.files[0];
     const formData = new FormData();
     formData.append("image", image);
@@ -105,7 +105,7 @@ const AddNewTasks = () => {
       console.error(err);
       Swal.fire("Error", "Image upload failed. Try again!", "error");
     } finally {
-      setLoading(false); // ✅ stop loading after upload success or fail
+      setLoading(false); //  stop loading after upload success or fail
     }
   };
 

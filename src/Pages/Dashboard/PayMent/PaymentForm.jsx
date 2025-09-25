@@ -47,11 +47,12 @@ const PaymentForm = () => {
           icon: "success",
           title: "Payment Successful",
           text: `You purchased ${pack.coins} coins!`,
-        });
-
-        setTimeout(() => {
+          showConfirmButton: false,
+          timer: 2000,
+          allowOutsideClick: false,
+        }).then(() => {
           window.location.reload();
-        }, 2000); // reloads after 2 seconds
+        });
       } catch (err) {
         Swal.fire({
           icon: "error",

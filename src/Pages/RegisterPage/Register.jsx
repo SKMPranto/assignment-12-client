@@ -19,6 +19,7 @@ const Register = () => {
   const { createUser, googleSignUp, updateUserProfile } = useAuth();
   const axiosInstance = useAxios();
   const [profilePic, setProfilePic] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // -------------------- REGISTER FUNCTION --------------------
   const onSubmit = async (data) => {
@@ -120,17 +121,24 @@ const Register = () => {
         });
       });
   };
-//----------------------- Upload Image in IMGBB -------------------------
+  //----------------------- Upload Image in IMGBB -------------------------
   const handleImageUpload = async (e) => {
+    setLoading(true);
     const image = e.target.files[0];
-
     const formData = new FormData();
     formData.append("image", image);
     const imageUploadUrl = `https://api.imgbb.com/1/upload?key=${
       import.meta.env.VITE_IMAGE_UPLOAD_KEY
     }`;
-    const res = await axios.post(imageUploadUrl, formData);
-    setProfilePic(res.data.data.url);
+    try {
+      const res = await axios.post(imageUploadUrl, formData);
+      setProfilePic(res.data.data.url);
+    } catch (err) {
+      console.error(err);
+      Swal.fire("Error", "Image upload failed. Try again!", "error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -225,7 +233,17 @@ const Register = () => {
                 </label>
               </label>
 
-              <button className="btn btn-neutral mt-4">Register</button>
+              <button
+                type="submit"
+                disabled={!profilePic || loading}
+                className={`w-[320px] text-lg py-1 cursor-pointer rounded font-bold text-white transition ${
+                  loading
+                    ? "bg-indigo-400 cursor-progress"
+                    : "bg-indigo-600 hover:bg-indigo-700"
+                }`}
+              >
+                {loading ? "Uploading image in ImageBB..." : "Register"}
+              </button>
               <div className="divider my-0">OR</div>
             </form>
             {/* Google login */}
