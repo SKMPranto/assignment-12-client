@@ -51,7 +51,7 @@ const PaymentForm = () => {
 
         setTimeout(() => {
           window.location.reload();
-        }, 3000); // reloads after 3 seconds
+        }, 2000); // reloads after 2 seconds
       } catch (err) {
         Swal.fire({
           icon: "error",
