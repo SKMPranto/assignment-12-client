@@ -19,6 +19,7 @@ import TaskList from "../Pages/Dashboard/WorkerDashboard/TaskList/TaskList";
 import MySubmissions from "../Pages/Dashboard/WorkerDashboard/MySubmissions/MySubmissions";
 import Withdrawals from "../Pages/Dashboard/WorkerDashboard/Withdrawals/Withdrawals";
 import DashboardHome from "../Pages/Dashboard/DashboardHome/DashboardHome";
+import TaskDetails from "../Pages/Dashboard/WorkerDashboard/TaskList/TaskDetails";
 
 const router = createBrowserRouter([
   {
@@ -87,6 +88,10 @@ const router = createBrowserRouter([
       {
         path: "withdrawals",
         Component: Withdrawals,
+      },
+      {
+        path: "taskDetails/:id",
+        Component: TaskDetails,
       },
     ],
     errorElement: <Error></Error>,
