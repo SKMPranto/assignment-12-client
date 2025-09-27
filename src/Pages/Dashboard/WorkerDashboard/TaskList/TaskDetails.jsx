@@ -60,7 +60,7 @@ const TaskDetails = () => {
             <strong className="text-xl text-red-500">
               Description : <br />
             </strong>{" "}
-            {TaskDetails.task_title}
+            {TaskDetails.task_detail}
           </p>
         </div>
       </div>
