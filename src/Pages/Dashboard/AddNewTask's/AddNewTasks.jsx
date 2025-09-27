@@ -41,7 +41,7 @@ const AddNewTasks = () => {
         // navigate to purchase coin page
         navigate("/dashboard/purchaseCoin");
       });
-      return; // ❌ terminate process
+      return; // terminate process
     }
 
     // If enough coins, continue

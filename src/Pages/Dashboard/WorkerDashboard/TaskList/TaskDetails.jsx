@@ -4,10 +4,15 @@ import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import Title from "../../../../Sheared/Title/Title";
 import Loader from "../../../../Sheared/LoaderEffect/Loader";
+import { useForm } from "react-hook-form";
+import useAuth from "../../../../Hooks/useAuth";
+import Swal from "sweetalert2";
 
 const TaskDetails = () => {
   Title("Dashboard | Task Details");
+  const { register, handleSubmit } = useForm();
   const { id } = useParams();
+  const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const { isPending, data: TaskDetails = [] } = useQuery({
     queryKey: ["taskDetails", id],
@@ -17,6 +22,44 @@ const TaskDetails = () => {
     },
   });
   if (isPending) return <Loader></Loader>;
+
+  const onSubmit = (data) => {
+    // console.log(data.submission_info);
+    const submissionData = {
+      task_id: TaskDetails._id,
+      task_title: TaskDetails.task_title,
+      payable_amount: TaskDetails.payable_amount,
+      worker_name: user.displayName,
+      worker_email: user.email,
+      submission_info: data.submission_info,
+      buyer_email: TaskDetails.email,
+      submitted_at: new Date().toISOString(),
+      status: "pending",
+      total_earning:0,
+    };
+
+    axiosSecure
+      .post("/submit-task", submissionData)
+      .then((res) => {
+        if (res.data.insertedId) {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Your work has been saved",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      })
+      .catch((err) => {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title:"You have already submitted this task or something went wrong: " + err.message,
+          showConfirmButton: true,
+        });
+      });
+  };
 
   return (
     <div>
@@ -69,11 +112,14 @@ const TaskDetails = () => {
         prove
       </h1>
       <div className="md:w-[50%] mx-auto my-5">
-        <form className="flex flex-col justify-end">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col justify-end"
+        >
           <label className="floating-label">
             <span>Give a Submission Info or Prove</span>
             <textarea
-              name="info"
+              {...register("submission_info")}
               placeholder="Give a Submission Info or Prove"
               className="textarea textarea-info w-full"
               required
