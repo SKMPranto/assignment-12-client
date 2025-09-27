@@ -22,6 +22,14 @@ const MySubmissions = () => {
     },
   });
   if (isPending) return <Loader></Loader>;
+  if(Tasks.length === 0){
+    return (
+      <div className="text-center mt-20">
+        <h2 className="text-2xl font-bold">No Submissions Found</h2>
+        <p className="mt-2">You have not submitted any tasks yet.</p>
+      </div>
+    );
+  }
   return (
     <div>
       <h1 className="text-2xl font-bold text-center my-10">All Submissions</h1>

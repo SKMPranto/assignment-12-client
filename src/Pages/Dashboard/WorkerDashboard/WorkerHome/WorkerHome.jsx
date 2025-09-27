@@ -8,21 +8,21 @@ import Loader from "../../../../Sheared/LoaderEffect/Loader";
 const WorkerHome = () => {
   Title("Dashboard | Worker Home");
   const { user } = useAuth();
-  const [userInfo, setUserInfo] = useState(null)
+  const [userInfo, setUserInfo] = useState(null);
   const axiosSecure = useAxiosSecure();
-  const {isPending, data : Tasks = []} = useQuery({
+  const { isPending, data: Tasks = [] } = useQuery({
     queryKey: ["myTasks", user?.email],
-    queryFn: async ()=>{
+    queryFn: async () => {
       const res = await axiosSecure.get(`/submit-task/${user?.email}`);
       return res.data;
-    }
-  })
+    },
+  });
 
-  useEffect(()=>{
-    axiosSecure.get(`/users/${user?.email}`).then((res)=>{
+  useEffect(() => {
+    axiosSecure.get(`/users/${user?.email}`).then((res) => {
       setUserInfo(res.data);
-    })
-  }, [axiosSecure, user?.email])
+    });
+  }, [axiosSecure, user?.email]);
 
   if (isPending) return <Loader></Loader>;
   const pendingTasks = Tasks.filter((task) => task.status === "pending") || [];
@@ -64,36 +64,44 @@ const WorkerHome = () => {
         </div>
       </div>
       {/* Approved Submissions table */}
-      <h1 className="text-2xl font-bold text-center my-10">
-        Approved Submissions
-      </h1>
-      <div className="overflow-x-auto">
-        <table className="table table-zebra">
-          {/* head */}
-          <thead>
-            <tr>
-              <th></th>
-              <th>Task Title</th>
-              <th>Payable Amount</th>
-              <th>Buyer Email</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {approvedTasks.map((task, index) => (
-              <tr key={task._id}>
-                <th>{index + 1}</th>
-                <td>{task.task_title}</td>
-                <td>{task.payable_amount}</td>
-                <td>{task.buyer_email}</td>
-                <td>
-                  <div className="badge badge-info">{task.status}</div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {approvedTasks.length === 0 ? (
+        <h2 className="text-2xl font-bold text-center my-10">
+          No Approved Submissions Yet
+        </h2>
+      ) : (
+        <>
+          <h1 className="text-2xl font-bold text-center my-10">
+            Approved Submissions
+          </h1>
+          <div className="overflow-x-auto">
+            <table className="table table-zebra">
+              {/* head */}
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Task Title</th>
+                  <th>Payable Amount</th>
+                  <th>Buyer Email</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {approvedTasks.map((task, index) => (
+                  <tr key={task._id}>
+                    <th>{index + 1}</th>
+                    <td>{task.task_title}</td>
+                    <td>{task.payable_amount}</td>
+                    <td>{task.buyer_email}</td>
+                    <td>
+                      <div className="badge badge-info">{task.status}</div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
     </div>
   );
 };
