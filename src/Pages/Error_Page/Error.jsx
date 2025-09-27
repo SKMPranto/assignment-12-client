@@ -13,12 +13,12 @@ const Error = () => {
       <p className="text-center font-bold pt-5 md:text-2xl lg:text-3xl mb-5">
         Sorry, the page you are looking for does not exist.
       </p>
-      <NavLink
-        to="/"
+      <button
+        onClick={() => window.history.back()}
         className="btn btn-wide btn-outline btn-error text-2xl font-bold"
       >
-        Back to home
-      </NavLink>
+        Go Back
+      </button>
     </div>
   );
 };
