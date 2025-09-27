@@ -4,6 +4,7 @@ import WorkerHome from "../WorkerDashboard/WorkerHome/WorkerHome";
 import Title from "../../../Sheared/Title/Title";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAuth from "../../../Hooks/useAuth";
+import AdminHome from "../AdminDashboard/AdminHome";
 
 const DashboardHome = () => {
   Title("Dashboard | Home");
@@ -21,7 +22,7 @@ const DashboardHome = () => {
   return (
     <div>
       {(userInfo?.role === "Buyer" && <BuyerHome></BuyerHome>) ||
-        (userInfo?.role === "Worker" && <WorkerHome></WorkerHome>)}
+        (userInfo?.role === "Worker" && <WorkerHome></WorkerHome>) || (userInfo?.role === "Admin" && <AdminHome></AdminHome>)}
     </div>
   );
 };

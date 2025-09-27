@@ -137,6 +137,39 @@ const DashboardLayOut = () => {
       </li>
     </>
   );
+  const AdminNavItems = (
+    <>
+      <li>
+        <NavLink to="/dashboard" className="text-xl font-bold">
+          Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/dashboard/manageTasks"
+          className={({ isActive }) =>
+            isActive
+              ? "text-xl font-bold underline underline-offset-1 text-red-400"
+              : "text-xl font-bold"
+          }
+        >
+          Manage Tasks
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/dashboard/manageUsers"
+          className={({ isActive }) =>
+            isActive
+              ? "text-xl font-bold underline underline-offset-1 text-red-400"
+              : "text-xl font-bold"
+          }
+        >
+          Manage Users
+        </NavLink>
+      </li>
+    </>
+  );
   return (
     <div>
       <div className="drawer lg:drawer-open">
@@ -257,7 +290,7 @@ const DashboardLayOut = () => {
             {/* Here the nav items are rendering */}
             <div className="pl-10">
               {(userInfo?.role === "Buyer" && BuyerNavItems) ||
-                (userInfo?.role === "Worker" && WorkerNavItems)}
+                (userInfo?.role === "Worker" && WorkerNavItems) || (userInfo?.role === "Admin" && AdminNavItems) || (<div></div>)}
             </div>
           </ul>
         </div>
