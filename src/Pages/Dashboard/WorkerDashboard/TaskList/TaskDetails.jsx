@@ -35,7 +35,6 @@ const TaskDetails = () => {
       buyer_email: TaskDetails.email,
       submitted_at: new Date().toISOString(),
       status: "pending",
-      total_earning:0,
     };
 
     axiosSecure
