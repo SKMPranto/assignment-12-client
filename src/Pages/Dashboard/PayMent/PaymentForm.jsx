@@ -48,7 +48,7 @@ const PaymentForm = () => {
           title: "Payment Successful",
           text: `You purchased ${pack.coins} coins!`,
           showConfirmButton: false,
-          timer: 2000,
+          timer: 4000,
           allowOutsideClick: false,
         }).then(() => {
           window.location.reload();
