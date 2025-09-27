@@ -13,7 +13,7 @@ const MySubmissions = () => {
     queryKey: ["worker-stats", user?.email],
     queryFn: async () => {
       try {
-        const res = await axiosSecure.get(`/submissions/${user?.email}`);
+        const res = await axiosSecure.get(`/submit-task/${user?.email}`);
         return res.data;
       } catch (err) {
         console.error("Error fetching submissions:", err);

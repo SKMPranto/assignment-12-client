@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Title from "../../../../Sheared/Title/Title";
 import useAuth from "../../../../Hooks/useAuth";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
@@ -8,27 +8,26 @@ import Loader from "../../../../Sheared/LoaderEffect/Loader";
 const WorkerHome = () => {
   Title("Dashboard | Worker Home");
   const { user } = useAuth();
+  const [userInfo, setUserInfo] = useState(null)
   const axiosSecure = useAxiosSecure();
-  const { isPending, data = {} } = useQuery({
-    queryKey: ["worker-stats", user?.email],
-    queryFn: async () => {
-      const [submissionsRes, userRes] = await Promise.all([
-        axiosSecure.get(`/submissions/${user?.email}`),
-        axiosSecure.get(`/users/${user?.email}`),
-      ]);
+  const {isPending, data : Tasks = []} = useQuery({
+    queryKey: ["myTasks", user?.email],
+    queryFn: async ()=>{
+      const res = await axiosSecure.get(`/submit-task/${user?.email}`);
+      return res.data;
+    }
+  })
 
-      return {
-        submissions: submissionsRes.data,
-        userInfo: userRes.data,
-      };
-    },
-  });
+  useEffect(()=>{
+    axiosSecure.get(`/users/${user?.email}`).then((res)=>{
+      setUserInfo(res.data);
+    })
+  }, [axiosSecure, user?.email])
 
   if (isPending) return <Loader></Loader>;
-  const pendingTasks =
-    data?.submissions?.filter((task) => task.status === "pending") || [];
+  const pendingTasks = Tasks.filter((task) => task.status === "pending") || [];
   const approvedTasks =
-    data?.submissions?.filter((task) => task.status === "approved") || [];
+    Tasks.filter((task) => task.status === "approved") || [];
 
   return (
     <div>
@@ -43,14 +42,14 @@ const WorkerHome = () => {
         {/* Profile Image */}
         <div className="avatar">
           <div className="ring-primary ring-offset-base-100 w-24 rounded-full ring-2 ring-offset-2">
-            <img src={data.userInfo?.photoURL} />
+            <img src={userInfo?.photoURL} />
           </div>
         </div>
         {/* Submission Information */}
         <div className="stats stats-vertical lg:stats-horizontal shadow">
           <div className="stat">
             <div className="stat-title">Total Submissions</div>
-            <div className="stat-value">{data.submissions.length}</div>
+            <div className="stat-value">{Tasks.length}</div>
           </div>
 
           <div className="stat">
@@ -60,7 +59,7 @@ const WorkerHome = () => {
 
           <div className="stat">
             <div className="stat-title">Total Earnings</div>
-            <div className="stat-value">{data.userInfo?.coins || 0} Coins</div>
+            <div className="stat-value">{userInfo?.coins || 0} Coins</div>
           </div>
         </div>
       </div>
