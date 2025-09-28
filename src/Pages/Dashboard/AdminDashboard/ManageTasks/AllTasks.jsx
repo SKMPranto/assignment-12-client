@@ -73,7 +73,7 @@ const AllTasks = ({ tasks, setTasks }) => {
   }
   return (
     <div>
-      <h1 className="text-2xl md:text-3xl 2xl:text-4xl text-red-400 font-bold text-center mt-10">
+      <h1 x>
         All Tasks
       </h1>
 
