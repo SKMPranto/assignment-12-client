@@ -34,8 +34,6 @@ const BuyerHome = () => {
       .catch((err) => console.error(err));
   }, [axiosSecure, user?.email]);
 
-  const res = axiosSecure.patch();
-
   //   --- IGNORE ---
   if (isPending) return <Loader></Loader>;
   //   filtering pending tasks

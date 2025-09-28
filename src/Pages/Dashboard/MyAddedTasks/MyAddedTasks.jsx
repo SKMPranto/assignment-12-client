@@ -8,12 +8,12 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 const MyAddedTasks = ({ tasks, setTasks }) => {
   const axiosSecure = useAxiosSecure();
 
-  // ✅ Remove task from UI
+  //  Remove task from UI
   const handleDeleteFromList = (id) => {
     setTasks((prev) => prev.filter((task) => task._id !== id));
   };
 
-  // ✅ Delete task with SweetAlert2 + Axios
+  // Delete task with SweetAlert2 + Axios
   const handleDelete = (id) => {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
