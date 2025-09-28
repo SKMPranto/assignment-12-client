@@ -2,21 +2,21 @@ import React, { useEffect, useState } from "react";
 import Title from "../../../Sheared/Title/Title";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router";
-import useAxios from "../../../Hooks/useAxios";
 import Loader from "../../../Sheared/LoaderEffect/Loader";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const UpdateTask = () => {
   Title("Dashboard | UpdateTask");
   const { id } = useParams();
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure()
   const [loading, setLoading] = useState(true);
   const { register, handleSubmit, setValue } = useForm();
   const [task, setTask] = useState(null);
 
   useEffect(() => {
     if (id) {
-      axiosInstance
+      axiosSecure
         .get(`/tasks/task/${id}`)
         .then((res) => {
           setTask(res.data);
@@ -24,9 +24,9 @@ const UpdateTask = () => {
         .catch((err) => console.error(err))
         .finally(() => setLoading(false));
     }
-  }, [id, axiosInstance]);
+  }, [id, axiosSecure]);
 
-  // ✅ Set form values when task is loaded
+  //  Set form values when task is loaded
   useEffect(() => {
     if (task) {
       setValue("task_title", task.task_title);
@@ -45,7 +45,7 @@ const UpdateTask = () => {
       completion_date: data.completion_date,
       submission_info: data.submission_info,
     };
-    await axiosInstance.put(`/tasks/${id}`, task).then((res) => {
+    await axiosSecure.put(`/tasks/${id}`, task).then((res) => {
       if (res.data.modifiedCount) {
         Swal.fire({
           position: "center",

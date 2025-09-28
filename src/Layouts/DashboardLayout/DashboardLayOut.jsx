@@ -2,26 +2,26 @@ import React, { useEffect, useState } from "react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router";
 import Navbar from "../../Sheared/Navbar/Navbar";
 import Footer from "../../Sheared/Footer/Footer";
-import useAxios from "../../Hooks/useAxios";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
 import { IoLogIn, IoLogOut } from "react-icons/io5";
 import Title from "../../Sheared/Title/Title";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const DashboardLayOut = () => {
   Title("Dashboard");
   const { user, userLogOut } = useAuth();
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState([]);
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
   useEffect(() => {
     if (user?.email) {
-      axiosInstance
+      axiosSecure
         .get(`/users/${user.email}`)
         .then((res) => setUserInfo(res.data))
         .catch((err) => console.error(err));
     }
-  }, [user?.email, axiosInstance]);
+  }, [user?.email, axiosSecure]);
   const handleLogOut = () => {
     userLogOut().then(() => {
       setUserInfo(null);
@@ -290,7 +290,8 @@ const DashboardLayOut = () => {
             {/* Here the nav items are rendering */}
             <div className="pl-10">
               {(userInfo?.role === "Buyer" && BuyerNavItems) ||
-                (userInfo?.role === "Worker" && WorkerNavItems) || (userInfo?.role === "Admin" && AdminNavItems) || (<div></div>)}
+                (userInfo?.role === "Worker" && WorkerNavItems) ||
+                (userInfo?.role === "Admin" && AdminNavItems) || <div></div>}
             </div>
           </ul>
         </div>

@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import useAuth from "../../Hooks/useAuth";
 import axios from "axios";
-import useAxios from "../../Hooks/useAxios";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const Register = () => {
   Title("Register");
@@ -17,7 +17,7 @@ const Register = () => {
   const { register, handleSubmit } = useForm();
   const [showPassword, setShowPassword] = useState(false);
   const { createUser, googleSignUp, updateUserProfile } = useAuth();
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
   const [profilePic, setProfilePic] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -35,7 +35,7 @@ const Register = () => {
         last_log_in: new Date().toISOString(),
       };
 
-      const userRes = await axiosInstance.post("/users", userInfo);
+      const userRes = await axiosSecure.post("/users", userInfo);
 
       // update User profile in firebase
       const userProfile = {
@@ -100,7 +100,7 @@ const Register = () => {
         };
 
         // Save to backend
-        const userRes = await axiosInstance.post("/users", userInfo);
+        const userRes = await axiosSecure.post("/users", userInfo);
 
         Swal.fire({
           position: "center",

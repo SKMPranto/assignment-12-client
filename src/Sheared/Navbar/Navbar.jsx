@@ -4,21 +4,21 @@ import { Link, NavLink, useNavigate } from "react-router";
 import useAuth from "../../Hooks/useAuth";
 import { IoLogIn, IoLogOut } from "react-icons/io5";
 import Swal from "sweetalert2";
-import useAxios from "../../Hooks/useAxios";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const Navbar = () => {
   const { user, userLogOut } = useAuth();
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState([]);
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
   useEffect(() => {
     if (user?.email) {
-      axiosInstance
+      axiosSecure
         .get(`/users/${user.email}`)
         .then((res) => setUserInfo(res.data))
         .catch((err) => console.error(err));
     }
-  }, [user?.email, axiosInstance]);
+  }, [user?.email, axiosSecure]);
 
   const handleLogOut = () => {
     userLogOut().then(() => {

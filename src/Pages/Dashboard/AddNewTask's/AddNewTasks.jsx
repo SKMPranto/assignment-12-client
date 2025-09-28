@@ -6,25 +6,26 @@ import useAxios from "../../../Hooks/useAxios";
 import Swal from "sweetalert2";
 import useAuth from "../../../Hooks/useAuth";
 import { useNavigate } from "react-router";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const AddNewTasks = () => {
   Title("Dashboard | AddTask");
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const [imageURL, setImageURL] = useState("");
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const [userInfo, setUserInfo] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (user?.email) {
-      axiosInstance
+      axiosSecure
         .get(`/users/${user.email}`)
         .then((res) => setUserInfo(res.data))
         .catch((err) => console.error(err));
     }
-  }, [user?.email, axiosInstance]);
+  }, [user?.email, axiosSecure]);
 
   const onSubmit = async (data) => {
     // Calculate total payable amount
@@ -58,11 +59,11 @@ const AddNewTasks = () => {
     };
 
     try {
-      const taskRes = await axiosInstance.post("/tasks", taskInfo);
+      const taskRes = await axiosSecure.post("/tasks", taskInfo);
 
       if (taskRes.data.insertedId) {
         // Deduct buyer's coins
-        await axiosInstance.patch(`/users/${user.email}/deduct-coins`, {
+        await axiosSecure.patch(`/users/${user.email}/deduct-coins`, {
           amount: totalPayable,
         });
 
