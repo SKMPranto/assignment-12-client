@@ -4,17 +4,9 @@ Tap&Earn is a micro-task earning platform where users can complete simple tasks,
 
 ---
 
-## 🔑 Admin Credentials
+## 🌐 Live Site
 
-- **Username:** `your-admin-username`
-- **Password:** `your-admin-password`
-
----
-
-## 🌐 Live Site : https://tap-and-earn-258dd.web.app/
-
-👉 [Tap&Earn Live Website](https://your-live-site-url.com)  
-(_Replace with your actual deployed site link_)
+👉 [Tap&Earn Live Website](https://tap-and-earn-258dd.web.app/)  
 
 ---
 
@@ -45,9 +37,3 @@ Tap&Earn is a micro-task earning platform where users can complete simple tasks,
 
 ---
 
-## 🚀 Getting Started (Local Development)
-
-1. Clone the repository
-   ```bash
-   git clone https://github.com/your-repo/tap-and-earn.git
-   ```
